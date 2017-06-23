@@ -6,8 +6,8 @@ from sklearn import svm
 
 def main():
     labeled_images = pd.read_csv('train.csv')
-    images = labeled_images.iloc[0:5000, 1:]
-    labels = labeled_images.iloc[0:5000, :1]
+    images = labeled_images.iloc[0:10000, 1:]
+    labels = labeled_images.iloc[0:10000, :1]
     train_images, test_images, train_labels, test_labels = train_test_split(images, labels, train_size=0.8, random_state=0)
 
     test_images[test_images>0]=1
@@ -22,7 +22,7 @@ def main():
 
     plt.show()
 
-    clf = svm.SVC()
+    clf = svm.SVC(class_weight='balanced', max_iter=1000)
     clf.fit(train_images, train_labels.values.ravel())
     print(clf.score(test_images, test_labels))
 
